@@ -1,0 +1,91 @@
+
+$ git clone git@github.com:akhmelenko/github-basics.git
+Cloning into 'github-basics'...
+Enter passphrase for key '/c/Users/User/.ssh/id_ed25519': 
+remote: Enumerating objects: 40, done.
+remote: Counting objects: 100% (40/40), done.
+Receiving objects:  70% (28/40)
+Receiving objects:  75% (30/40)
+Receiving objects: 100% (40/40), 5.19 KiB | 1.04 MiB/s, done.
+Resolving deltas: 100% (14/14), done.
+- clone repo from github (no need previously to call "git init") to current directory
+
+User@AKHMELENKO_ASUS_DESKTOP MINGW64 /d/Anton/study/Udemy_Git/remote/clone
+$ git status 
+fatal: not a git repository (or any of the parent directories): .git
+- not working (we are not in the git repo, need to go to repo (folder with ".git" folder))
+
+User@AKHMELENKO_ASUS_DESKTOP MINGW64 /d/Anton/study/Udemy_Git/remote/clone
+$ cd github-basics/
+- now we are in the git repo
+
+User@AKHMELENKO_ASUS_DESKTOP MINGW64 /d/Anton/study/Udemy_Git/remote/clone/github-basics (master)
+$ git status
+On branch master
+- now we are in the git repo and can use git repo commands
+
+$ git branch --track feature-local origin/feature-local 
+Branch 'feature-local' set up to track remote branch 'feature-local' from 'origin'.
+- create local branch with the same name as remore branch
+- "--track": set up upstream tracking betweel local branch and remote (use "git pull", "git push" without branch name)
+
+$ git branch -vv
+  feature-local c2835a4 [origin/feature-local] move fl1.txt to github-basics folder
+* master        00b1c24 [origin/master] add m3.txt
+- show local branches tracking details
+
+$ git push -u origin feature-upstream 
+- create remote branch with name <feature-upstream> and pushing changes
+- "-u" with set up tracking (can use "git pull", "git push" without branch name)
+- "-u" = "--set-upstream"
+
+
+
+// DELETE THE REMOTE BRANCH
+$ git branch --delete --remotes origin/<feature>
+Deleted remote-tracking branch origin/feature (was 7ca7369).
+- deleting localy remote/origin/<feature>
+
+// check existing remote branches
+$ git ls-remote
+From git@github.com:akhmelenko/github-basics.git
+00b1c24c2e1fd52e3805980785e1b7644ad0b803        HEAD
+7ca7369ef3b40dfbe4915dfa3d45017db8d4d01f        refs/heads/feature
+c2835a4b3847f6ff826c717543a6dd433090adf0        refs/heads/feature-local
+46a9137ae7fb9d6595fdead89441a58efa4609a2        refs/heads/feature-remote
+9b454130a035bc8e90a50e48e4b3f26de921b19f        refs/heads/feature-upstream
+3c8622333bd7a3654e86ed44e25a778216b285ee        refs/heads/firstly_local
+00b1c24c2e1fd52e3805980785e1b7644ad0b803        refs/heads/master
+- branch "refs/heads/feature" is still exists
+
+$ git push origin --delete <feature>
+To github.com:akhmelenko/github-basics.git
+ - [deleted]         feature
+- funaly delete branch <feature> at remote 
+
+// check existing remote branches
+$ git ls-remote
+From git@github.com:akhmelenko/github-basics.git
+00b1c24c2e1fd52e3805980785e1b7644ad0b803        HEAD
+c2835a4b3847f6ff826c717543a6dd433090adf0        refs/heads/feature-local
+46a9137ae7fb9d6595fdead89441a58efa4609a2        refs/heads/feature-remote
+9b454130a035bc8e90a50e48e4b3f26de921b19f        refs/heads/feature-upstream
+3c8622333bd7a3654e86ed44e25a778216b285ee        refs/heads/firstly_local
+00b1c24c2e1fd52e3805980785e1b7644ad0b803        refs/heads/master
+- now <feature> is not exists (finaly deleted)
+
+
+// PUSH CHANGES AFTER DELETE COMMITS IN LOCAL BRANCH
+$ git reset --hard HEAD~1
+$ git push origin master
+To github.com:akhmelenko/github-basics.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'github.com:akhmelenko/github-basics.git'
+- Error
+
+// but if use --force:
+$ git push --force origin master
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:akhmelenko/github-basics.git
+ + 00b1c24...01f80c3 master -> master (forced update)
+- pushed Successfully

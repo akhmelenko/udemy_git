@@ -1,0 +1,86 @@
+-- STASH --
+$ git stash
+- go back to last commit with saving uncommitted state
+
+$ git stash apply
+- go forward to latest not committed changes
+
+$ git stash list
+stash@{0}: WIP on master: ac36033 add file1.txt
+stash@{1}: WIP on master: ac36033 add file1.txt
+stash@{2}: WIP on master: ac36033 add file1.txt
+- list of all stashed changes (saved but not committed)
+
+$ git stash apply 0
+- go forward to the latest stash
+
+$ git stash apply 2
+- go forward to the earliest stash
+
+$ git stash push -m "some feature added"
+- go back to last commit with saving uncommitted state and stash message
+
+$ git stash list
+stash@{0}: On master: some feature added
+stash@{1}: WIP on master: ac36033 add file1.txt
+stash@{2}: WIP on master: ac36033 add file1.txt
+stash@{3}: WIP on master: ac36033 add file1.txt
+stash@{4}: WIP on master: ac36033 add file1.txt
+stash@{5}: WIP on master: ac36033 add file1.txt
+- we can see our message with stash
+
+$ git stash pop 0
+- go forward to stash 0 ! and delete it from stash list !
+
+$ git stash drop 0
+- delete stash 0 from stash list
+
+$ git stash clear
+- delete ALL stashes from stash list
+
+
+-- REFLOG --
+//* restore the deleted commit
+$ git reflog
+0cfa143 (HEAD -> master) HEAD@{0}: reset: moving to HEAD~1
+1bae04c HEAD@{1}: commit: file2 added // ! point we need to back !
+0cfa143 (HEAD -> master) HEAD@{2}: commit: add feature 3 to project
+ac36033 HEAD@{3}: reset: moving to HEAD
+ac36033 HEAD@{4}: reset: moving to HEAD
+ac36033 HEAD@{5}: reset: moving to HEAD
+ac36033 HEAD@{6}: reset: moving to HEAD
+ac36033 HEAD@{7}: reset: moving to HEAD
+ac36033 HEAD@{8}: reset: moving to HEAD
+ac36033 HEAD@{9}: commit (initial): add file1.txt
+- show all changes applied in this branch
+- changes saved for 40 days
+
+$ git reset --hard 1bae04c
+- go back to deleted commit (hash=1bae04c) (with files restore) 
+
+
+//* restore the deleted branch (reflog -> detach head -> new branch) 
+// deleted branch commit: "file3 added"
+$ git reflog
+1bae04c (HEAD -> master) HEAD@{0}: checkout: moving from feature to master
+799dcec HEAD@{1}: commit: file3 added
+1bae04c (HEAD -> master) HEAD@{2}: checkout: moving from master to feature
+1bae04c (HEAD -> master) HEAD@{3}: checkout: moving from feature to master
+1bae04c (HEAD -> master) HEAD@{4}: checkout: moving from master to feature
+1bae04c (HEAD -> master) HEAD@{5}: reset: moving to 1bae04c
+0cfa143 HEAD@{6}: reset: moving to HEAD~1
+1bae04c (HEAD -> master) HEAD@{7}: commit: file2 added
+0cfa143 HEAD@{8}: commit: add feature 3 to project
+ac36033 HEAD@{9}: reset: moving to HEAD
+ac36033 HEAD@{10}: reset: moving to HEAD
+ac36033 HEAD@{11}: reset: moving to HEAD
+ac36033 HEAD@{12}: reset: moving to HEAD
+ac36033 HEAD@{13}: reset: moving to HEAD
+ac36033 HEAD@{14}: reset: moving to HEAD
+ac36033 HEAD@{15}: commit (initial): add file1.txt
+
+$ git checkout 799dcec
+Note: switching to '799dcec'.
+$ git checkout -b lost_feature // or $ git switch -c lost_feature
+Switched to a new branch 'lost_feature'
+

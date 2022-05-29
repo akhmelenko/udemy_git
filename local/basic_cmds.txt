@@ -1,0 +1,113 @@
+$ git --version 
+- check current git version
+
+$ git stage
+- current state of git project
+
+$ git init
+- initialize git project folder
+
+$ git config --global user.name "toxic"
+- set author name
+
+$ git config --global user.email "akhmelenko@gmail.com"
+- set author email
+
+$ git add .
+- add to git all new files
+
+$ git commit -m "Commit note"
+- new commit (-m with message)
+
+$ git status
+- current status
+
+$ git log
+- check all commits on this branch
+
+$ git checkout <commit_id>
+- back to pre commit state
+
+$ git switch master
+- go back to master brange last change
+
+$ git commit -a
+- commit changes in all files
+
+$ git branch
+- check current branch
+
+$ git branch <new_branch_name>
+- create new branch 
+
+$ git checkout <other_branch>
+- switch to other branch
+
+$ git checkout -b <new_branch_name>
+- create and switch to new branch 
+
+$ git merge <other_branch_name>
+- merge current branch with other branch
+
+$ git switch <branch_name>
+- switch between branches only (not between commits)
+
+$ git switch -c <new_branch_name>
+- create new branch and switch to it
+
+$ git ls-files
+- show files list of current stage area
+
+$ git rm <file_name>
+- remove file from git (run command after file was deleted from working directory)
+
+$ git checkout <file_name>
+- undo unstaged changes in file to previous commit (to HEAD)
+
+$ git checkout .
+- undo changes in all files to previous commit (to HEAD)
+
+$ git restore <file_name>
+- undo changes in file to previous commit (to HEAD)
+
+$ git restore .
+- undo changes in all files to previous commit (to HEAD)
+
+$ git clean -dn
+- show all unstaged files (before deleting)
+
+$ git clean -df
+- delete all unstaged files
+
+$ git add <file_name>
+- add new changes in existing file
+
+$ git reset <file_name>
+- make unstaged last staged change
+
+$ git restore --staged <file_name>
+- make unstaged last staged change (same as reset)
+
+$ git reset --soft HEAD~1
+- go back to 1 step commits back with no delete from stage area files (git ls-files)
+
+$ git reset HEAD~1
+- go back to 1 step commits back with delete from stage area files (git ls-files)
+
+$ git reset --hard HEAD~1
+- go back to 1 step commits back with delete from stage area files (git ls-files) and from working directory
+
+$ git branch -d <branch_name> <other_branch_name> <other_branch_name> ...
+- delete branch only in case if it was merged
+
+$ git branch -D <branch_name> <other_branch_name> ...
+- (force) delete branch in any case
+
+$ git branch <detached_head_branch> <7c71d0f>
+- from other branch creating new branch for detached head commit (7c71d0f - detached head commit number)
+
+$ git branch <detached_head_branch>
+- from detached head branch creating new branch for detached head commit (no need detached head commit number)
+
+$git clean -df
+- delete all untracked files

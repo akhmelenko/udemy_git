@@ -1,0 +1,22 @@
+
+
+$ git tag <tag_name> <commit_id>
+- add tag with name <tag_name> to commit <commit_id>
+
+$ git tag
+- list of all branch tags
+
+$ git show <tag_name>
+- show detailed info about tagged commit
+
+$ git checkout <tag_name>
+- go to datached HEAD with tag_name (as with commit ID)
+
+$ git checkout <branch_name>
+- back to the HEAD of the branch
+
+$ git tag -d <tag_name>
+- delete tag 
+
+$ git tag -a <tag_name> -m "<tag_message>"
+- add annotated tag to last commit with tag_name and tag_message

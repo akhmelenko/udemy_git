@@ -1,0 +1,152 @@
+
+// FAST FORWARD MERGE (no changes in master after forking until merge)
+$ git merge <other_branch>
+- it "Fast-forward" merge (no changes were in master branch after creating other_branch)
+- it means that we do not need make a commit after merge because HEAD of master just moved to HEAD of other_branch
+
+$ git merge --squash <other_branch>
+- it "Fast-forward" merge (no changes were in master branch after creating other_branch)
+- "--squash" merge without commit (no saved other_branch commits)
+- need to commit manually after merge
+
+
+// RECURSIVE MERGE (possible commits after forking in master and other_branch + final automatical merge commit)
+$ git merge --no-ff feature 
+Merge made by the 'ort' strategy.
+ feature/f1.txt | 0
+ feature/f2.txt | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 feature/f1.txt
+ create mode 100644 feature/f2.txt
+ - "--no-ff" means that no Fast-forward (all feature commits are added and merge commit added automaticaly)
+ - recurseve
+
+$ git log
+commit 8426e1e0ccd9d2220f0a2648239c5820604f9501 (HEAD -> master)
+Merge: d01613c f22639e
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 12:37:44 2022 +0300
+
+    Merge branch 'feature'
+
+commit f22639e6d952d68dd82c14b7ca4b7f5cfdd4d0c7 (feature)
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 12:14:28 2022 +0300
+
+    add f2
+
+commit 0ebceef11e47e45d99cead22e8465f6996dd0096
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 12:13:53 2022 +0300
+
+    add f1
+
+commit d01613c138255d8d29e2e945da428f10e3fcf82b
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 12:12:57 2022 +0300
+
+    add m2
+
+commit 23d1e02d744884ca576fae5bbe7ea8cbd4727fd3
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 12:12:26 2022 +0300
+
+    add m1
+
+commit b60dc2852dd1326bc81b57d6b001f538f989d3d9
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 12:11:46 2022 +0300
+
+    inittial state 
+
+// go back (state before merge)
+// add new file to master and make commit
+$ git merge feature 
+Merge made by the 'ort' strategy.
+ feature/f1.txt | 0
+ feature/f2.txt | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 feature/f1.txt
+ create mode 100644 feature/f2.txt
+- by dafault it merged RECURSIVE
+
+$ git merge --squash feature 
+Automatic merge went well; stopped before committing as requested
+Squash commit -- not updating HEAD
+- again skip all info about feature branch commits
+
+
+
+// REBASE (rewrites the code history)
+$ git rebase master 
+- add new commits (commits after forking) from master branch
+- commits are added after last base commit (forking commit) and before new commits in current branch
+- id of new commits are changed (rebased)
+
+// then use merge from master branch (it will be FF merge)
+$ git merge feature 
+Updating 57df487..20f7439
+Fast-forward
+
+
+// CONFLICTS ON MERGE (changes in both branches in the same file before merge)
+$ git merge feature 
+Auto-merging feature/f1.txt
+CONFLICT (content): Merge conflict in feature/f1.txt
+Automatic merge failed; fix conflicts and then commit the result.
+- see the conflict and need to solve it
+
+$ git status 
+- to ger more info about the problem
+
+$ git merge --abort
+- abort the merge
+
+$ git merge feature 
+
+$ git log --merge
+commit 322788ae660225e4c3285905624c91f74451cbe4 (feature)
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 14:15:42 2022 +0300
+
+    add change in f1 in feature branch
+
+commit 4b253d90560f4173242e0b5b95644cfb51b5a794 (HEAD -> master)
+Author: Anton <akhmelenko@gmail.com>
+Date:   Thu May 5 14:13:45 2022 +0300
+
+    change in f1 in master branch
+- more info about the merge
+
+$ git diff
+diff --cc feature/f1.txt
+index e00609c,87def40..0000000
+--- a/feature/f1.txt
++++ b/feature/f1.txt
+@@@ -1,1 -1,1 +1,5 @@@
+- chanege in master branch
+ -Changed in the feature feature branch
+++<<<<<<< HEAD
+++chanege in master branch
+++=======
+++Changed in the feature feature branch
+++>>>>>>> feature
+- show the difference in branches
+
+$ git checkout --ours .
+- leave current branch chaneges
+
+$ git checkout --theirs .
+- get merging branch chaneges
+
+// after merging:
+$ git add .
+$ git commit -m "merge ..."
+
+
+// CHERRY-PICK
+$ git cherry-pick e8bdc5c2837bfbda8d377cca502ff3390e2a82fd
+- merge from the other branch ONLY the EXACT COMMIT with ID=e8bdc5c2837bfbda8d377cca502ff3390e2a82fd
+- new ID will be different (new ID=1aaba4d8512794a875f1e2ce7a8a729cd36217de)
+
+

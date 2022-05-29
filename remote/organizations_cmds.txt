@@ -1,0 +1,4 @@
+
+$ git clone https://github.com/github-course-organizatoin/organizstion-repo-1.git .
+- create a clone of remote repo
+- " .": copy repo files

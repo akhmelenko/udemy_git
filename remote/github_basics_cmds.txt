@@ -1,0 +1,117 @@
+
+$ git init
+$ git add .
+$ git commit -m "add m1.txt"
+
+$ git remote add origin git@github.com:akhmelenko/github-basics.git
+- create connection between local repository and github repository
+- "git@github.com:akhmelenko/github-basics.git" - URL for connection
+
+<$ git branch -M main>
+- optional
+- rename branch from master to "main"
+
+$ git push origin <branch_name>
+- push local branch changes to remote repository with <branch_name> (master)
+- if remote branch <branch_name> does not exists: create remote branch <branch_name> + put changes
+- if remote branch <branch_name> is exists: just add changes
+
+$ git push --set-upstream origin <firstly_local> 
+- "--set-upstream" branch 'firstly_local' set up to track remote branch 'firstly_local'
+- now we can use "git pull" and "git push" without name of remote branch
+
+$ git branch
+* master
+- show local branches
+
+$ git branch -a
+* master
+  remotes/origin/master
+- show all branches (local and remote)
+
+$ git branch -r
+  origin/master
+- show only remote branches
+
+$ git ls-remote 
+From git@github.com:akhmelenko/github-basics.git
+00b1c24c2e1fd52e3805980785e1b7644ad0b803        HEAD
+7ca7369ef3b40dfbe4915dfa3d45017db8d4d01f        refs/heads/feature
+329fa5f64ec3da1b196f747beeeaaccbb602f4ea        refs/heads/feature-remote
+00b1c24c2e1fd52e3805980785e1b7644ad0b803        refs/heads/master
+- show all remote branches (tracked and not tracked)
+
+$ git fetch origin
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 691 bytes | 4.00 KiB/s, done.
+From github.com:akhmelenko/github-basics
+ * [new branch]      feature-remote -> origin/feature-remote
+- update local repo with all remote changes
+
+$ git pull origin <branch_name>
+From github.com:akhmelenko/github-basics
+ * branch            master     -> FETCH_HEAD
+Already up to date.
+- "fetch" + "merge" remote branch <branch_name> to local branch <branch_name>
+
+$ git checkout remotes/origin/feature-remote
+- 1 approach (not good) to to get new branch from remote repo (not good)
+- it is a detached HEAD
+- than we can just create a new branch from this point
+
+$ git branch --track <new_local_branch_name> <existing_remote_tracking_branch_name>
+($ git branch --track feature-remote-local remotes/origin/feature-remote)
+- create a local branch <new_local_branch_name> with content from <existing_remote_tracking_branch_name>
+- "--track": now we can use "git pull" and "git push" without name of remote branch
+
+$ git push
+fatal: The upstream branch of your current branch does not match
+- Error because current local branch name not matches with any remote branch
+
+$ git branch --track <branch_name> remote/origin/<branch_name>
+($ git branch --track feature-remote remotes/origin/feature-remote)
+- create a local branch <branch_name> with content from remote/origin/<branch_name>
+
+// make some chenges in local <branch_name>
+
+$ git push
+- Success
+- pushing the changes of current local tracking branch to the remote branch with the same name
+
+// make some chenges in remote/origin/<branch_name>
+
+$ git pull
+- Success
+- pushing the changes the remote branch to the current local tracking branch with the same name
+
+$ git branch -vv
+  feature        7ca7369 move feature folder out of master
+* feature-remote 46a9137 [origin/feature-remote] Added file3.txt
+  master         00b1c24 add m3.txt
+- "-vv" (verbose): more detailes about the branches
+
+$ git remote
+origin
+- show your current remote service
+
+$ git remote show <origin>
+* remote origin
+  Fetch URL: git@github.com:akhmelenko/github-basics.git
+  Push  URL: git@github.com:akhmelenko/github-basics.git
+  HEAD branch: master
+  Remote branches:
+    feature        tracked
+    feature-remote tracked
+    firstly_local  tracked
+    master         tracked
+  Local branch configured for 'git pull':
+    feature-remote merges with remote feature-remote
+  Local refs configured for 'git push':
+    feature        pushes to feature        (up to date)
+    feature-remote pushes to feature-remote (up to date)
+    firstly_local  pushes to firstly_local  (up to date)
+    master         pushes to master         (up to date)
+- show detailed info about current remote service (origin)
